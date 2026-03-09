@@ -2,10 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 
 async function handle(
   req: NextRequest,
-  { params }: { params: { action: string; key: string[] } },
+  context: { params: Promise<{ action: string; key: string[] }> },
 ) {
   const requestUrl = new URL(req.url);
   const endpoint = requestUrl.searchParams.get("endpoint");
+  const params = await context.params;
 
   if (req.method === "OPTIONS") {
     return NextResponse.json({ body: "OK" }, { status: 200 });

@@ -19,11 +19,12 @@ const normalizeUrl = (url: string) => {
 
 async function handle(
   req: NextRequest,
-  { params }: { params: { path: string[] } },
+  context: { params: Promise<{ path: string[] }> },
 ) {
   if (req.method === "OPTIONS") {
     return NextResponse.json({ body: "OK" }, { status: 200 });
   }
+  const params = await context.params;
   const folder = STORAGE_KEY;
   const fileName = `${folder}/backup.json`;
 

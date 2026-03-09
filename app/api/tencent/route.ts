@@ -9,8 +9,9 @@ const serverConfig = getServerSideConfig();
 
 async function handle(
   req: NextRequest,
-  { params }: { params: { path: string[] } },
+  context: { params: Promise<{ path: string[] }> },
 ) {
+  const params = await context.params;
   console.log("[Tencent Route] params ", params);
 
   if (req.method === "OPTIONS") {
